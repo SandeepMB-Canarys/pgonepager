@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Send Email with EmailJS</title>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
+
 <body>
     <h2>Send Email</h2>
     <form id="emailForm">
@@ -23,23 +25,24 @@
 
     <script>
         // Initialize EmailJS with your Public Key
-        (function() {
+        (function () {
             emailjs.init("QdI4EDS1qKh52O9Wt"); // Replace with your EmailJS Public Key
         })();
 
-        document.getElementById("emailForm").addEventListener("submit", function(event) {
+        document.getElementById("emailForm").addEventListener("submit", function (event) {
             event.preventDefault();
 
-            emailjs.send("service_d91msga", "template_rkp5sir", {
-                to_email: document.getElementById("to").value,
-                subject: document.getElementById("subject").value,
-                message: document.getElementById("message").value
-            }).then(function(response) {
-                alert("Email sent successfully!");
-            }, function(error) {
-                alert("Error sending email: " + error.text);
-            });
+            emailjs.send("service_e60ozkp", "template_rkp5sir", emailParams)
+                .then(function (response) {
+                    console.log("Email sent successfully:", response);
+                    alert("Email sent successfully!");
+                })
+                .catch(function (error) {
+                    console.error("Error sending email:", error);
+                    alert("Error sending email: " + error.text);
+                });
         });
     </script>
 </body>
+
 </html>
