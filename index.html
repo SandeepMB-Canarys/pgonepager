@@ -27,10 +27,20 @@
         // Initialize EmailJS with your Public Key
         (function () {
             emailjs.init("QdI4EDS1qKh52O9Wt"); // Replace with your EmailJS Public Key
+            console.log("EmailJS initialized with Public Key");
         })();
 
         document.getElementById("emailForm").addEventListener("submit", function (event) {
             event.preventDefault();
+
+            // Define emailParams before using it
+            const emailParams = {
+                to_email: document.getElementById("to").value,
+                subject: document.getElementById("subject").value,
+                message: document.getElementById("message").value
+            };
+
+            console.log("Sending email with parameters:", emailParams);
 
             emailjs.send("service_e60ozkp", "template_rkp5sir", emailParams)
                 .then(function (response) {
