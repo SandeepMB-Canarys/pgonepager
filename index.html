@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Send Email with Nodemailer</title>
+    <title>Send Email with EmailJS</title>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 <body>
     <h2>Send Email</h2>
@@ -21,21 +22,23 @@
     </form>
 
     <script>
-        document.getElementById("emailForm").addEventListener("submit", async function(event) {
+        // Initialize EmailJS with your Public Key
+        (function() {
+            emailjs.init("QdI4EDS1qKh52O9Wt"); // Replace with your EmailJS Public Key
+        })();
+
+        document.getElementById("emailForm").addEventListener("submit", function(event) {
             event.preventDefault();
 
-            const to = document.getElementById("to").value;
-            const subject = document.getElementById("subject").value;
-            const message = document.getElementById("message").value;
-
-            const response = await fetch("http://localhost:3000/send-email", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ to, subject, message })
+            emailjs.send("service_d91msga", "template_rkp5sir", {
+                to_email: document.getElementById("to").value,
+                subject: document.getElementById("subject").value,
+                message: document.getElementById("message").value
+            }).then(function(response) {
+                alert("Email sent successfully!");
+            }, function(error) {
+                alert("Error sending email: " + error.text);
             });
-
-            const result = await response.json();
-            alert(result.message);
         });
     </script>
 </body>
