@@ -10,8 +10,8 @@ app.use(cors());
 const transporter = nodemailer.createTransport({
     service: "gmail", // Use your email provider (Gmail, Outlook, etc.)
     auth: {
-        user: "your-email@gmail.com", // Replace with your email
-        pass: "your-app-password" // Replace with an app password
+        user: "tech@pehligaadi.com", // Replace with your email
+        pass: "kdms hpaq yguv hzox" // Replace with an app password
     }
 });
 
@@ -21,7 +21,7 @@ app.post("/send-email", async (req, res) => {
 
     try {
         await transporter.sendMail({
-            from: '"Your Name" <your-email@gmail.com>',
+            from: '"sandeep MB" <tech@pehligaadi.com>',
             to,
             subject,
             html: `<p>${message}</p>` // Send HTML email content
