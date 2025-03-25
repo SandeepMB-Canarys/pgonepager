@@ -1,17 +1,27 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+
+// CORS Configuration
+const corsOptions = {
+    origin: "https://stirring-pony-96b5a1.netlify.app", // Your frontend URL
+    methods: "GET,POST,OPTIONS",
+    allowedHeaders: "Content-Type",
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // Handle preflight
 
 // Create a transporter
 const transporter = nodemailer.createTransport({
-    service: "gmail", // Use your email provider (Gmail, Outlook, etc.)
+    service: "gmail",
     auth: {
-        user: "tech@pehligaadi.com", // Replace with your email
-        pass: "kdms hpaq yguv hzox" // Replace with an app password
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
     }
 });
 
@@ -21,10 +31,10 @@ app.post("/send-email", async (req, res) => {
 
     try {
         await transporter.sendMail({
-            from: '"sandeep MB" <tech@pehligaadi.com>',
+            from: `"Sandeep MB" <${process.env.EMAIL_USER}>`,
             to,
             subject,
-            html: `<p>${message}</p>` // Send HTML email content
+            html: `<p>${message}</p>` 
         });
 
         res.json({ message: "Email sent successfully!" });
@@ -35,5 +45,5 @@ app.post("/send-email", async (req, res) => {
 });
 
 // Start the server
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
